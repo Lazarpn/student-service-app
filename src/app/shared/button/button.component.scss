@@ -1,0 +1,73 @@
+:host {
+  display: flex;
+  width: 100%;
+}
+
+button {
+  position: relative;
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 16px;
+  outline: none;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: background-color 0.2s;
+
+  &.primary {
+    color: var(--black);
+    background-color: var(--alt);
+
+    &:hover {
+      background-color: var(--alt-20);
+
+      &:disabled {
+        background-color: var(--alt);
+      }
+    }
+  }
+
+  &.secondary {
+    color: var(--white);
+    background-color: var(--accent);
+
+    &:hover {
+      background-color: var(--accent-20);
+
+      &:disabled {
+        background-color: var(--accent);
+      }
+    }
+  }
+
+  &.tertiary {
+    color: var(--black);
+    background-color: transparent;
+
+    &:hover {
+      background-color: var(--default-40);
+
+      &:disabled {
+        background-color: transparent;
+      }
+    }
+  }
+
+  &:disabled {
+    border: none;
+    box-shadow: none;
+    opacity: 0.8;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+}
+
+::ng-deep .ladda-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

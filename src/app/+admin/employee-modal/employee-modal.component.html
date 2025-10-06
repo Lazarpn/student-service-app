@@ -1,0 +1,94 @@
+<div class="mat-header">
+  <h2 mat-dialog-title>{{ (employee.id ? 'label.Manage' : 'label.Create') | translate}} {{'label.Employee' | translate}}</h2>
+
+  <button mat-dialog-close class="close-modal">
+    <ss-icon
+      iconName="dismiss"
+      color="white"
+      [size]="20"
+      [iconVariant]="20">
+    </ss-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <form #roomForm="ngForm">
+    <ss-select
+      id="department-id"
+      name="departmentId"
+      [required]="true"
+      [(ngModel)]="employee.katedraId"
+      placeholder="Department"
+      label="Department"
+      [options]="data.departments"
+      labelProperty="naziv"
+      valueProperty="id">
+    </ss-select>
+
+    <ss-input
+      id="name"
+      name="name"
+      label="Name"
+      placeholder="Enter employee name"
+      [(ngModel)]="employee.ime"
+      [required]="true">
+    </ss-input>
+
+    <ss-input
+      id="surname"
+      name="surname"
+      label="Surname"
+      placeholder="Enter employee surname"
+      [(ngModel)]="employee.prezime"
+      [required]="true">
+    </ss-input>
+
+    <ss-input
+      id="email"
+      name="email"
+      label="Email"
+      type="email"
+      placeholder="Enter employee email"
+      [(ngModel)]="employee.email"
+      [required]="true">
+    </ss-input>
+
+    <ss-input
+      id="jmbg"
+      name="jmbg"
+      label="Citizen ID"
+      placeholder="Enter employee Citizen ID"
+      [(ngModel)]="employee.jmbg"
+      [required]="true">
+    </ss-input>
+
+    <ss-select
+      id="title"
+      name="title"
+      [(ngModel)]="employee.zvanje"
+      placeholder="Title"
+      label="Title"
+      [options]="titles"
+      [required]="true">
+    </ss-select>
+
+    <mat-form-field>
+      <mat-label>{{'label.Choose a date' | translate}}</mat-label>
+      <input matInput name="date-start" [matDatepicker]="picker" required [(ngModel)]="employee.datumZaposlenja">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <div class="divider"></div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <ss-button mat-dialog-close color="tertiary">{{'label.Close' | translate}}</ss-button>
+  <ss-button
+    (buttonClick)="saveChanges()"
+    [disabled]="!roomForm.form.valid"
+    [isLoading]="saving">
+    {{(employee.id ? 'label.Update' : 'label.Create') | translate}}
+  </ss-button>
+</mat-dialog-actions>

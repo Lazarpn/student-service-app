@@ -1,0 +1,9 @@
+<button [bgLadda]="isLoading" [disabled]="disabled" (click)="buttonClick.emit($event)">
+
+  @if (iconName) {
+    <ss-icon [size]="iconSize" [color]="iconColor" [iconName]="iconName" [iconVariant]="iconVariant">
+    </ss-icon>
+  }
+
+  <ng-content></ng-content>
+</button>

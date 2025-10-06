@@ -1,0 +1,85 @@
+<div class="mat-header">
+  <h2 mat-dialog-title>{{ (engagement.id ? 'label.Manage' : 'label.Create') | translate}} {{'label.Engagement' | translate}}</h2>
+
+  <button mat-dialog-close class="close-modal">
+    <ss-icon
+      iconName="dismiss"
+      color="white"
+      [size]="20"
+      [iconVariant]="20">
+    </ss-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <form #roomForm="ngForm">
+    <ss-select
+      id="employee-id"
+      name="employeeId"
+      [(ngModel)]="engagement.zaposleniId"
+      placeholder="Employee"
+      label="Employee"
+      [options]="data.employees"
+      [disabled]="!!!employeeId"
+      labelProperty="ime"
+      valueProperty="id">
+    </ss-select>
+
+    <ss-select
+      id="subject-id"
+      name="subjectId"
+      [(ngModel)]="engagement.predmetId"
+      placeholder="Subject"
+      label="Subject"
+      [options]="data.subjects"
+      labelProperty="naziv"
+      valueProperty="id">
+    </ss-select>
+
+    <ss-input
+      id="classCount"
+      name="classCount"
+      label="ClassCount"
+      placeholder="Enter class count"
+      [(ngModel)]="engagement.brojCasova"
+      [required]="true">
+    </ss-input>
+
+    <ss-select
+      id="teachingForm-id"
+      name="teachingFormId"
+      [(ngModel)]="engagement.uloga"
+      placeholder="TeachingForm"
+      label="TeachingForm"
+      [options]="teachingFormOptions">
+    </ss-select>
+
+    <mat-form-field style="margin-bottom:16px">
+      <mat-label>{{ 'placeholders.Choose a year' | translate }}</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        name="academic-year"
+        [(ngModel)]="engagement.akademskaGodina"
+        readonly>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker
+        #picker
+        startView="multi-year"
+        (yearSelected)="chosenYearHandler($event, picker)"
+        panelClass="year-picker"></mat-datepicker>
+    </mat-form-field>
+
+    <div class="divider"></div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <ss-button mat-dialog-close color="tertiary">{{'label.Close' | translate}}</ss-button>
+  <ss-button
+    (buttonClick)="saveChanges()"
+    [disabled]="!roomForm.form.valid"
+    [isLoading]="saving">
+    {{(engagement.id ? 'label.Update' : 'label.Create') | translate}}
+  </ss-button>
+</mat-dialog-actions>

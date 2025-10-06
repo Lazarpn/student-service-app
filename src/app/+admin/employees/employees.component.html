@@ -1,0 +1,184 @@
+<section class="box">
+
+  <div class="box-header">
+    <div class="left">
+      <ss-icon
+        iconName="person"
+        color="alt"
+        [size]="24"
+        [iconVariant]="20">
+      </ss-icon>
+      <span class="text">{{'label.Employees' | translate}}</span>
+    </div>
+    <div class="right">
+      <div class="search">
+        <ss-select
+          id="department-id"
+          name="departmentId"
+          placeholder="Search By Department"
+          [options]="departments"
+          labelProperty="naziv"
+          valueProperty="id"
+          [(ngModel)]="departmentId"
+          (selectionChange)="departmentFilterChanged()">
+        </ss-select>
+
+        <ss-input
+          name="searchTerm"
+          [(ngModel)]="searchTerm"
+          placeholder="Search">
+        </ss-input>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="no-entries-message" *ngIf="!loading && !getEmployees().length">
+    {{'label.There are no employees yet.' | translate}}
+    <a (click)="openEmployeeModal(null, $event)">
+      {{'label.Create the first one.' | translate}}
+    </a>
+  </div>
+
+  <div
+    class="no-entries-message"
+    *ngIf="employees.length && !getEmployees().length && !loading">
+    {{'label.No Results.' | translate}}
+  </div>
+
+  <div class="ss-table" *ngIf="getEmployees().length">
+    <section class="header">
+      <div class="row responsive-card">
+        <div class="cell name" (click)="sortBy('ime')">
+          <span class="text">{{'label.Name' | translate}}</span>
+          <mat-icon class="icon-sort" *ngIf="currentSortOption === 'ime'">
+            {{currentSortIsDescending ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+          </mat-icon>
+        </div>
+        <div class="cell name" (click)="sortBy('prezime')">
+          <span class="text">{{'label.Surname' | translate}}</span>
+          <mat-icon class="icon-sort" *ngIf="currentSortOption === 'prezime'">
+            {{currentSortIsDescending ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+          </mat-icon>
+        </div>
+        <div class="cell name" (click)="sortBy('email')">
+          <span class="text">{{'label.Email' | translate}}</span>
+          <mat-icon class="icon-sort" *ngIf="currentSortOption === 'email'">
+            {{currentSortIsDescending ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+          </mat-icon>
+        </div>
+        <div class="cell name" (click)="sortBy('zvanje')">
+          <span class="text">{{'label.Title' | translate}}</span>
+          <mat-icon class="icon-sort" *ngIf="currentSortOption === 'zvanje'">
+            {{currentSortIsDescending ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+          </mat-icon>
+        </div>
+        <div class="cell date" (click)="sortBy('datumZaposlenja')">
+          <span class="text">{{'label.EmploymentDate' | translate}}</span>
+          <mat-icon
+            class="icon-sort"
+            *ngIf="currentSortOption === 'datumZaposlenja'">
+            {{currentSortIsDescending ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+          </mat-icon>
+        </div>
+        <div class="cell actions">
+          <div
+            class="action blue last"
+            role="button"
+            (click)="openEmployeeModal(null, $event)">
+            <mat-icon>add</mat-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="sorter has-action">
+        <mat-form-field class="ss-select">
+          <mat-select [ngModel]="currentSortOption" (ngModelChange)="sortBy($event)">
+            <mat-option value="ime">{{'label.Name' | translate}}</mat-option>
+            <mat-option value="prezime">{{'label.Surname' | translate}}</mat-option>
+            <mat-option value="email">{{'label.Email' | translate}}</mat-option>
+            <mat-option value="zvanje">{{'label.Title' | translate}}</mat-option>
+            <mat-option value="datumZaposlenja">{{'label.EmploymentDate' | translate}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <span
+          class="icon-sort"
+          [class.desc]="currentSortIsDescending"
+          role="button"
+          (click)="currentSortIsDescending = !currentSortIsDescending">
+        </span>
+      </div>
+    </section>
+    <section class="body">
+      <div
+        *ngFor="let employee of getEmployees()"
+        class="row responsive-card">
+
+        <div class="cell name">
+          {{ employee.ime }}
+        </div>
+
+        <div class="cell name">
+          {{ employee.prezime }}
+        </div>
+
+        <div class="cell name">
+          {{ employee.email }}
+        </div>
+
+        <div class="cell name">
+          {{ employee.zvanje }}
+        </div>
+
+        <div class="cell date">
+          {{ employee.datumZaposlenja | date }}
+        </div>
+
+        <div class="cell actions">
+          <div
+            class="action blue responsive-in-dropdown"
+            role="button"
+            (click)="openEmployeeModal(employee, $event)">
+            <mat-icon class="small">edit</mat-icon>
+          </div>
+
+          <div
+            class="action last"
+            role="button"
+            (click)="detailsDropdown.toggle(employee, $event)">
+            <mat-icon>more_vert</mat-icon>
+          </div>
+
+          <ss-dropdown
+            class="longer"
+            *ngIf="detailsDropdown.shown && detailsDropdown.activeEmployee === employee"
+            [shown]="detailsDropdown.shown"
+            (closed)="detailsDropdown.close()">
+
+            <div class="ss-dropdown-item responsive" (click)="openEmployeeModal(employee, $event)">
+              {{'label.Edit' | translate}}
+            </div>
+          </ss-dropdown>
+
+          <div class="dropdown-divider responsive"></div>
+
+          <ss-dropdown
+            class="longer"
+            *ngIf="detailsDropdown.shown && detailsDropdown.activeEmployee === employee"
+            [shown]="detailsDropdown.shown"
+            (closed)="detailsDropdown.close()">
+            <div class="ss-dropdown-item" (click)="manageEngagements(employee, $event)">
+              {{'label.Engagements' | translate}}
+            </div>
+
+            <div class="ss-dropdown-item" (click)="openRemoveConfirmModal(employee, $event)">
+              {{'label.Delete' | translate}}
+            </div>
+          </ss-dropdown>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>

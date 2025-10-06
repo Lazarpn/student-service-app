@@ -1,0 +1,112 @@
+@use '../../../scss/mixins' as *;
+
+@use '../../../scss/responsive-admin' as *;
+
+@use '../../../scss/modals' as *;
+
+@use '@angular/material' as mat;
+
+.divider {
+  margin: 0 24px;
+}
+
+.has-flag {
+  position: relative;
+}
+
+.responsive .flag-icon {
+  top: 13px;
+  right: 6px;
+  bottom: auto;
+  left: auto;
+}
+
+.box .box-header.box-header {
+  padding-bottom: 0;
+}
+
+.search {
+  position: relative;
+  display: flex;
+  padding-left: 40px;
+
+  @media #{$phone} {
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-left: 0;
+
+    ss-input {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+
+  mat-spinner {
+    position: absolute;
+    top: 8px;
+    left: 0;
+
+    @media #{$phone} {
+      top: -42px;
+      right: -12px;
+      left: auto;
+    }
+  }
+
+  ss-select {
+    margin-right: 12px;
+
+    @media #{$phone} {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+}
+
+.filters {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px 24px;
+
+  @media #{$phone} {
+    flex-wrap: wrap;
+  }
+
+  label {
+    padding-top: 13px;
+    margin-right: 12px;
+    font-size: 13px;
+  }
+
+  ss-select {
+    width: 240px;
+    margin-right: 20px;
+
+    @media #{$phone} {
+      width: 100%;
+      margin-right: 0;
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}
+
+.ss-table .row {
+  .cell.email {
+    display: flex;
+    align-items: center;
+
+    mat-icon.conversations-disabled {
+      margin-left: 10px;
+      font-size: 18px;
+      color: var(--negative-40);
+    }
+  }
+
+  .cell.actions {
+    width: 134px;
+  }
+}

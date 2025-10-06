@@ -1,0 +1,171 @@
+<section class="box">
+
+  <div class="box-header">
+    <div class="left">
+      <ss-icon
+        color="alt"
+        iconName="handshake"
+        [size]="24"
+        [iconVariant]="20">
+      </ss-icon>
+      <span class="text">{{'label.Engagements' | translate}}</span>
+    </div>
+    @if (employee) {
+      <h2>{{employee?.ime}} {{employee?.prezime}}</h2>
+    }
+    <div class="right">
+      <div class="search">
+        <ss-input
+          name="searchTerm"
+          [(ngModel)]="searchTerm"
+          placeholder="Search">
+        </ss-input>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="no-entries-message" *ngIf="!loading && !getEngagements().length">
+    {{'label.There are no engagements yet.' | translate}}
+    <a (click)="openEngagementModal(null, $event)">
+      {{'label.Create the first one.' | translate}}
+    </a>
+  </div>
+
+  <div
+    class="no-entries-message"
+    *ngIf="engagements.length && !getEngagements().length && !loading">
+    {{'label.No Results.' | translate}}
+  </div>
+
+  <div class="ss-table" *ngIf="getEngagements().length">
+    <section class="header">
+      <div class="row responsive-card">
+        <div class="cell name" (click)="sortBy('zaposleniIme')">
+          <span class="text">{{'label.FirstName' | translate}}</span>
+          <mat-icon class="icon-sort" *ngIf="currentSortOption === 'zaposleniIme'">
+            {{currentSortIsDescending ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+          </mat-icon>
+        </div>
+        <div class="cell name" (click)="sortBy('predmetNaziv')">
+          <span class="text">{{'label.Subject' | translate}}</span>
+          <mat-icon class="icon-sort" *ngIf="currentSortOption === 'predmetNaziv'">
+            {{currentSortIsDescending ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+          </mat-icon>
+        </div>
+        <div class="cell name" (click)="sortBy('brojCasova')">
+          <span class="text">{{'label.ClassCount' | translate}}</span>
+          <mat-icon class="icon-sort" *ngIf="currentSortOption === 'brojCasova'">
+            {{currentSortIsDescending ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+          </mat-icon>
+        </div>
+        <div class="cell name" (click)="sortBy('uloga')">
+          <span class="text">{{'label.TeachingForm' | translate}}</span>
+          <mat-icon class="icon-sort" *ngIf="currentSortOption === 'uloga'">
+            {{currentSortIsDescending ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+          </mat-icon>
+        </div>
+        <div class="cell name" (click)="sortBy('akademskaGodina')">
+          <span class="text">{{'label.AcademicYear' | translate}}</span>
+          <mat-icon class="icon-sort" *ngIf="currentSortOption === 'akademskaGodina'">
+            {{currentSortIsDescending ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+          </mat-icon>
+        </div>
+        <div class="cell actions">
+          <div
+            class="action blue last"
+            role="button"
+            (click)="openEngagementModal(null, $event)">
+            <mat-icon>add</mat-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="sorter has-action">
+        <mat-form-field class="ss-select">
+          <mat-select [ngModel]="currentSortOption" (ngModelChange)="sortBy($event)">
+            <mat-option value="zaposleniIme">Name</mat-option>
+            <mat-option value="predmetNaziv">Subject</mat-option>
+            <mat-option value="brojCasova">Subject</mat-option>
+            <mat-option value="uloga">TeachingForm</mat-option>
+            <mat-option value="akademskaGodina">AcademicYear</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <span
+          class="icon-sort"
+          [class.desc]="currentSortIsDescending"
+          role="button"
+          (click)="currentSortIsDescending = !currentSortIsDescending">
+        </span>
+      </div>
+    </section>
+    <section class="body">
+      <div
+        *ngFor="let engagement of getEngagements()"
+        class="row responsive-card">
+
+        <div class="cell name">
+          {{ engagement.zaposleniIme }}
+        </div>
+
+        <div class="cell name">
+          {{ engagement.predmetNaziv }}
+        </div>
+
+        <div class="cell name">
+          {{ engagement.brojCasova }}
+        </div>
+
+        <div class="cell name">
+          {{ engagement.uloga }}
+        </div>
+
+        <div class="cell name">
+          {{ engagement.akademskaGodina }}
+        </div>
+
+        <div class="cell actions">
+          <div
+            class="action blue responsive-in-dropdown"
+            role="button"
+            (click)="openEngagementModal(engagement, $event)">
+            <mat-icon class="small">edit</mat-icon>
+          </div>
+
+          <div
+            class="action last"
+            role="button"
+            (click)="detailsDropdown.toggle(engagement, $event)">
+            <mat-icon>more_vert</mat-icon>
+          </div>
+
+          <ss-dropdown
+            class="longer"
+            *ngIf="detailsDropdown.shown && detailsDropdown.activeEngagement === engagement"
+            [shown]="detailsDropdown.shown"
+            (closed)="detailsDropdown.close()">
+
+            <div class="ss-dropdown-item responsive" (click)="openEngagementModal(engagement, $event)">
+              {{'label.Edit' | translate}}
+            </div>
+          </ss-dropdown>
+
+          <div class="dropdown-divider responsive"></div>
+
+          <ss-dropdown
+            class="longer"
+            *ngIf="detailsDropdown.shown && detailsDropdown.activeEngagement === engagement"
+            [shown]="detailsDropdown.shown"
+            (closed)="detailsDropdown.close()">
+
+            <div class="ss-dropdown-item" (click)="openRemoveConfirmModal(engagement, $event)">
+              {{'label.Delete' | translate}}
+            </div>
+          </ss-dropdown>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>

@@ -1,0 +1,53 @@
+<div class="mat-header">
+  <h2 mat-dialog-title>{{ modalTitle }}</h2>
+
+  <button mat-dialog-close class="close-modal">
+    <ss-icon
+      iconName="dismiss"
+      [size]="20"
+      [iconVariant]="20">
+    </ss-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <div
+    class="description-line"
+    *ngIf="!errors.length"
+    [innerHTML]="('confirmMessages.' + description) | translate:descriptionParams">
+  </div>
+
+  <ng-container *ngIf="errors.length">
+    <div
+      class="description-line"
+      *ngFor="let error of errors"
+      [translate]="'errors.' + error.errorCode"
+      [innerHTML]="('errors.' + error.errorCode) | translate:error.params">
+    </div>
+  </ng-container>
+
+  <mat-checkbox *ngIf="checkboxLabel" [(ngModel)]="checkboxValue">{{checkboxLabel}}</mat-checkbox>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <ss-button
+    mat-dialog-close
+    class="additional-button"
+    *ngIf="additionalButtonLabel"
+    color="tertiary"
+    (click)="additionalButtonCallback()">
+    {{additionalButtonLabel}}
+  </ss-button>
+  <ss-button
+    mat-dialog-close
+    *ngIf="!hideCancelButton"
+    color="tertiary"
+    class="close-button">
+    {{cancelButtonLabel}}
+  </ss-button>
+  <ss-button
+    *ngIf="confirmButtonLabel"
+    (buttonClick)="onConfirm()">
+    {{confirmButtonLabel}}
+  </ss-button>
+</mat-dialog-actions>

@@ -1,0 +1,29 @@
+@mixin scrollbar($autohide: true, $small: false) {
+  overflow: auto;
+  overflow: overlay;
+  scrollbar-color: var(--alt) transparent;
+  scrollbar-width: thin;
+
+  @supports (-moz-appearance:none) {
+    scrollbar-color: var(--alt) var(--alt);
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: if($small, var(--alt), var(--alt));
+  }
+
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-thumb {
+    border-radius: if($small, 25px, 50px);
+    background-color: if($autohide, transparent, var(--alt));
+
+    @if $small {
+      background-color: if($autohide, transparent, var(--alt));
+    }
+  }
+
+  &::-webkit-scrollbar {
+    width: if($small, 4px, 8px);
+    height: if($small, 4px, 8px);
+  }
+}

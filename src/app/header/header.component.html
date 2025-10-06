@@ -1,0 +1,63 @@
+<img src="assets/images/Nasa_sluzba.png" alt="Nasa sluzba">
+
+<nav>
+  <ul>
+    @if (accountService.authenticated()) {
+      <li>
+        <a
+          routerLink="home/departments"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }">
+          {{ 'label.Departments' | translate }}
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="home/employees"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }">
+          {{ 'label.Employees' | translate }}
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="home/subjects"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }">
+          {{ 'label.Subjects' | translate }}
+        </a>
+      </li>
+    }
+  </ul>
+</nav>
+
+@if (accountService.authenticated()) {
+  <div class="language-wrapper">
+    <div class="language-selector">
+      <span (click)="changeLanguage('en')">EN</span>
+      <span class="divider">|</span>
+      <span (click)="changeLanguage('rs')">RS</span>
+      <span class="divider">|</span>
+    </div>
+    <ss-icon
+      color="white"
+      iconName="sign_out"
+      [size]="26"
+      [iconVariant]="20"
+      (click)="accountService.signOut()">
+    </ss-icon>
+  </div>
+
+} @else {
+  <div class="button-wrapper">
+    <div class="language-selector">
+      <span (click)="changeLanguage('en')">EN</span>
+      <span class="divider">|</span>
+      <span (click)="changeLanguage('rs')">RS</span>
+      <span class="divider">|</span>
+    </div>
+    <ss-button color="secondary" (buttonClick)="goToSignIn()">
+      <span>Sign In</span>
+    </ss-button>
+  </div>
+}

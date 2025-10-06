@@ -1,0 +1,67 @@
+<div class="mat-header">
+  <h2 mat-dialog-title>{{ (subject.id ? 'label.Manage' : 'label.Create') | translate}} {{'label.Subject' | translate}}</h2>
+
+  <button mat-dialog-close class="close-modal">
+    <ss-icon
+      iconName="dismiss"
+      color="white"
+      [size]="20"
+      [iconVariant]="20">
+    </ss-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <form #roomForm="ngForm">
+    <ss-select
+      id="department-id"
+      name="departmentId"
+      [required]="true"
+      [(ngModel)]="subject.katedraId"
+      placeholder="Department"
+      label="Department"
+      [options]="data.departments"
+      labelProperty="naziv"
+      valueProperty="id">
+    </ss-select>
+
+    <ss-input
+      id="name"
+      name="name"
+      label="Name"
+      placeholder="Enter subject name"
+      [(ngModel)]="subject.naziv"
+      [required]="true">
+    </ss-input>
+
+    <ss-input
+      id="code"
+      name="code"
+      label="Code"
+      placeholder="Enter subject code"
+      [(ngModel)]="subject.sifra"
+      [required]="true">
+    </ss-input>
+
+    <ss-input
+      id="espb"
+      name="espb"
+      label="ESPB"
+      type="number"
+      placeholder="Enter subject espb"
+      [(ngModel)]="subject.espb"
+      [required]="true">
+    </ss-input>
+    <div class="divider"></div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <ss-button mat-dialog-close color="tertiary">{{'label.Close' | translate}}</ss-button>
+  <ss-button
+    (buttonClick)="saveChanges()"
+    [disabled]="!roomForm.form.valid"
+    [isLoading]="saving">
+    {{(subject.id ? 'label.Update' : 'label.Create') | translate}}
+  </ss-button>
+</mat-dialog-actions>

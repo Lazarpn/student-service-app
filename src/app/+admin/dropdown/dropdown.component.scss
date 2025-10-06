@@ -1,0 +1,84 @@
+@use '../../../scss/mixins' as *;
+
+@use '../../../scss/responsive-admin' as *;
+
+@use '../../../scss/modals' as *;
+
+:host {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 5px;
+  z-index: 1;
+  border-radius: 4px;
+  box-shadow: var(--card-shadow);
+  color: var(--default);
+  background-color: var(--grayscale);
+  user-select: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: calc(100% - 8px);
+    width: 0;
+    height: 0;
+    border-right: 10px solid transparent;
+    border-bottom: 16px solid var(--grayscale-g1);
+    border-left: 10px solid transparent;
+  }
+
+  &.longer {
+    width: 163px;
+  }
+
+  &.longest {
+    width: 255px;
+  }
+}
+
+::ng-deep .ss-dropdown-item {
+  display: flex;
+  align-items: center;
+  margin: 10px 15px;
+  gap: 12px;
+  cursor: pointer;
+
+  @media #{$phone} {
+    padding: 15px 12px;
+    margin: 0;
+  }
+
+  &:first-child {
+    border-radius: 8px 8px 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 8px 8px;
+  }
+
+  &.responsive {
+    display: none;
+
+    @media #{$phone} {
+      display: block;
+    }
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+::ng-deep .dropdown-divider {
+  height: 1px;
+  margin: 0 15px;
+  background-color: var(--default-60);
+
+  &.responsive {
+    display: none;
+
+    @media #{$phone} {
+      display: block;
+    }
+  }
+}

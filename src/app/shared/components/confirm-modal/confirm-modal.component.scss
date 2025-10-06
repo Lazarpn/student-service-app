@@ -1,0 +1,42 @@
+@use '../../../../scss/mixins' as *;
+
+@use '../../../../scss/responsive-admin' as *;
+
+@use '../../../../scss/modals' as *;
+
+:host {
+  &::ng-deep h2 {
+    margin-bottom: 16px;
+    line-height: 24px;
+  }
+
+  @media #{$phone} {
+    ss-button {
+      min-width: 100px;
+    }
+  }
+}
+
+.description-line::ng-deep p {
+  margin-bottom: 12px;
+
+  :last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.close-button {
+  @media #{$phone} {
+    display: none;
+  }
+}
+
+.additional-button {
+  @media #{$phone} {
+    min-width: 194px !important;
+  }
+}
+
+mat-checkbox {
+  margin-top: 10px;
+}

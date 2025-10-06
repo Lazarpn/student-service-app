@@ -1,0 +1,19 @@
+@use '../../../scss/mixins' as *;
+
+@use '../../../scss/responsive-admin' as *;
+
+@use '../../../scss/modals' as *;
+
+.divider {
+  margin: 16px 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .form-field {
+    margin-bottom: 16px;
+  }
+}

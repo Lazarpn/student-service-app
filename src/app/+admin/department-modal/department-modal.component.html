@@ -1,0 +1,45 @@
+<div class="mat-header">
+  <h2 mat-dialog-title>{{ (department.id ? 'label.Manage' : 'label.Create') | translate}} {{'label.Department' | translate}}</h2>
+
+  <button mat-dialog-close class="close-modal">
+    <ss-icon
+      iconName="dismiss"
+      color="white"
+      [size]="20"
+      [iconVariant]="20">
+    </ss-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <form #roomForm="ngForm">
+    <ss-input
+      id="name"
+      name="name"
+      label="Name"
+      placeholder="Enter department name"
+      [(ngModel)]="department.naziv"
+      [required]="true">
+    </ss-input>
+
+    <ss-input
+      id="code"
+      name="code"
+      label="Code"
+      placeholder="Enter department code"
+      [(ngModel)]="department.sifra"
+      [required]="true">
+    </ss-input>
+    <div class="divider"></div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <ss-button mat-dialog-close color="tertiary">{{'label.Close' | translate}}</ss-button>
+  <ss-button
+    (buttonClick)="saveChanges()"
+    [disabled]="!roomForm.form.valid"
+    [isLoading]="saving">
+    {{(department.id ? 'label.Update' : 'label.Create') | translate}}
+  </ss-button>
+</mat-dialog-actions>

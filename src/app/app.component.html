@@ -1,0 +1,10 @@
+<ss-header></ss-header>
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+@if(showLoadingSpinner) {
+  <div class="loading-overlay">
+    <ss-spinner [strokeWidth]="5" [diameter]="80"></ss-spinner>
+  </div>
+}

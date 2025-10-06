@@ -1,0 +1,144 @@
+<section class="box">
+
+  <div class="box-header">
+    <div class="left">
+      <ss-icon
+        iconName="building"
+        color="alt"
+        [size]="24"
+        [iconVariant]="20">
+      </ss-icon>
+      <span class="text">{{'label.Departments' | translate}}</span>
+    </div>
+    <div class="right">
+      <ss-input
+        name="searchTerm"
+        [(ngModel)]="searchTerm"
+        placeholder="Search">
+      </ss-input>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="no-entries-message" *ngIf="!loading && !getDepartments().length">
+    {{'label.There are no departments yet.' | translate}}
+    <a (click)="openDepartmentModal(null, $event)">
+      {{'label.Create the first one.' | translate}}
+    </a>
+  </div>
+
+  <div
+    class="no-entries-message"
+    *ngIf="departments.length && !getDepartments().length && !loading">
+    {{'label.No Results.' | translate}}
+  </div>
+
+  <div class="ss-table" *ngIf="getDepartments().length">
+    <section class="header">
+      <div class="row responsive-card">
+        <div class="cell name" (click)="sortBy('naziv')">
+          <span class="text">{{'label.Name' | translate}}</span>
+          <mat-icon class="icon-sort" *ngIf="currentSortOption === 'naziv'">
+            {{currentSortIsDescending ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+          </mat-icon>
+        </div>
+        <div class="cell name" (click)="sortBy('sifra')">
+          <span class="text">{{'label.Code' | translate}}</span>
+          <mat-icon class="icon-sort" *ngIf="currentSortOption === 'sifra'">
+            {{currentSortIsDescending ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+          </mat-icon>
+        </div>
+        <div class="cell actions">
+          <div
+            class="action blue last"
+            role="button"
+            (click)="openDepartmentModal(null, $event)">
+            <mat-icon>add</mat-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="sorter has-action">
+        <mat-form-field class="ss-select">
+          <mat-select [ngModel]="currentSortOption" (ngModelChange)="sortBy($event)">
+            <mat-option value="ime">{{'label.Name' | translate}}</mat-option>
+            <mat-option value="sifra">{{'label.Code' | translate}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <span
+          class="icon-sort"
+          [class.desc]="currentSortIsDescending"
+          role="button"
+          (click)="currentSortIsDescending = !currentSortIsDescending">
+        </span>
+      </div>
+    </section>
+    <section class="body">
+      <div
+        *ngFor="let department of getDepartments()"
+        class="row responsive-card">
+
+        <div class="cell name">
+          {{ department.naziv }}
+        </div>
+
+        <div class="cell name">
+          {{ department.sifra }}
+        </div>
+
+        <div class="cell actions">
+          <div
+            class="action blue responsive-in-dropdown"
+            role="button"
+            (click)="openDepartmentModal(department, $event)">
+            <mat-icon class="small">edit</mat-icon>
+          </div>
+
+          <div
+            class="action last"
+            role="button"
+            (click)="detailsDropdown.toggle(department, $event)">
+            <mat-icon>more_vert</mat-icon>
+          </div>
+
+          <ss-dropdown
+            class="longer"
+            *ngIf="detailsDropdown.shown && detailsDropdown.activeDepartment === department"
+            [shown]="detailsDropdown.shown"
+            (closed)="detailsDropdown.close()">
+
+            <div class="ss-dropdown-item responsive" (click)="openDepartmentModal(department, $event)">
+              {{'label.Edit' | translate}}
+            </div>
+          </ss-dropdown>
+
+          <div class="dropdown-divider responsive"></div>
+
+          <ss-dropdown
+            class="longer"
+            *ngIf="detailsDropdown.shown && detailsDropdown.activeDepartment === department"
+            [shown]="detailsDropdown.shown"
+            (closed)="detailsDropdown.close()">
+            <div class="ss-dropdown-item"
+              (click)="goToEmployees(department.id)">
+              {{'label.Employees' | translate}}
+            </div>
+
+            <div class="ss-dropdown-item"
+              (click)="goToSubjects(department.id)">
+              {{'label.Subjects' | translate}}
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+            <div class="ss-dropdown-item" (click)="openRemoveConfirmModal(department, $event)">
+              {{'label.Delete' | translate}}
+            </div>
+          </ss-dropdown>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>

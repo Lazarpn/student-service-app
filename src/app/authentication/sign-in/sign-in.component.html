@@ -1,0 +1,24 @@
+<div>
+  <h3>{{'label.loginToYourAccount' | translate}}</h3>
+</div>
+
+<form #form="ngForm">
+
+  <ss-input
+    name="email"
+    placeholder="enterYourEmailAddress"
+    type="email"
+    [(ngModel)]="model.email">
+  </ss-input>
+
+  <ss-input
+    name="password"
+    placeholder="enterYourPassword"
+    type="password"
+    [(ngModel)]="model.password">
+  </ss-input>
+
+  <ss-button (buttonClick)="signIn()">
+    <span>{{'label.SignIn' | translate}}</span>
+  </ss-button>
+</form>

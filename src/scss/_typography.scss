@@ -1,0 +1,148 @@
+@use './mixins' as *;
+
+@use './_fonts.scss' as *;
+
+@use './_theme.scss' as *;
+
+@use './_variables.scss' as *;
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--black);
+
+  span {
+    font-family: 'Montserrat', serif;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+}
+
+h1 {
+  font-family: 'Montserrat', serif;
+  font-size: 80px;
+  font-weight: 600;
+  line-height: 49px;
+
+  @media #{$xs-desktop} {
+    font-size: 50px;
+    line-height: 37px;
+  }
+
+  @media #{$tablet} {
+    font-size: 45px;
+    line-height: 35px;
+  }
+
+  @media #{$phone} {
+    font-size: 34px;
+    line-height: 30px;
+  }
+
+  span {
+    font-size: 30px;
+    letter-spacing: 10px;
+
+    @media #{$xs-desktop} {
+      font-size: 25px;
+    }
+
+    @media #{$tablet} {
+      font-size: 22px;
+    }
+
+    @media #{$phone} {
+      letter-spacing: 5px;
+    }
+  }
+}
+
+h2 {
+  font-family: 'Montserrat', serif;
+  font-size: 60px;
+  font-weight: 600;
+  line-height: 49px;
+
+  @media #{$xs-desktop} {
+    font-size: 50px;
+    line-height: 37px;
+  }
+
+  @media #{$tablet} {
+    font-size: 45px;
+    line-height: 35px;
+  }
+
+  @media #{$phone} {
+    font-size: 34px;
+    line-height: 30px;
+  }
+
+  span {
+    font-size: 30px;
+    letter-spacing: 10px;
+
+    @media #{$xs-desktop} {
+      font-size: 25px;
+    }
+
+    @media #{$tablet} {
+      font-size: 22px;
+    }
+
+    @media #{$phone} {
+      letter-spacing: 5px;
+    }
+  }
+}
+
+h3 {
+  font-family: 'Montserrat', serif;
+  font-size: 20px;
+  line-height: 20px;
+}
+
+li {
+  outline: none;
+  list-style: none;
+}
+
+a {
+  font-family: 'Montserrat', serif;
+  color: var(--gray-text);
+  text-decoration: none;
+  letter-spacing: 2px;
+  cursor: pointer;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: var(--alt);
+  }
+
+  &.white {
+    color: var(--alt);
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: var(--alt);
+    }
+  }
+
+  &:visited {
+    text-decoration: none;
+  }
+}
+
+ss-admin {
+  font-size: 15px;
+}
